@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.css": "/skillsync/static/css/main.31d6cfe0.css",
+    "main.js": "/skillsync/static/js/main.75eb0970.js",
+    "index.html": "/skillsync/index.html",
+    "main.75eb0970.js.map": "/skillsync/static/js/main.75eb0970.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.31d6cfe0.css",
+    "static/js/main.75eb0970.js"
+  ]
+}
