@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Message from "./components/Message";
 import FileUpload from "./components/FileUpload";
 import Markdown from "react-markdown";
 import "./App.css";
@@ -6,6 +7,7 @@ import "./App.css";
 const App = () => {
   const [llmResponse, setLlmResponse] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   return (
     <div className="container mt-4 m-4">
@@ -13,13 +15,15 @@ const App = () => {
         <img src="https://cdn.prod.website-files.com/6645c0129428882861d078b8/66603a39bd44aeb85269ceea_655df7e9805dd2bd768367ef_llamaindex-removebg-preview.png" />{" "}
         SkillSync - Tailor your CV or resume!
       </h4>
+      {errorMsg != null ? <Message msg={errorMsg} /> : null}
       {llmResponse == null && !showSpinner ? (
         <FileUpload
           setLlmResponse={setLlmResponse}
           setShowSpinner={setShowSpinner}
+          setErrorMsg={setErrorMsg}
         />
       ) : null}
-      {showSpinner ? (
+      {showSpinner && errorMsg == null ? (
         <div
           className="d-flex justify-content-center mt-6"
           style={{ marginTop: "2.25rem" }}

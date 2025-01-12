@@ -4,13 +4,17 @@ import Progress from "./Progress";
 import axios from "axios";
 
 const taskTypes = {
-  guided_cv: "Guided CV",
-  guided_cover_letter: "Guided Cover Letter",
-  auto_cv: "Autonomous CV",
-  auto_cover_letter: "Autonomous Cover Letter",
+  guided_cv: "Performant Guided CV",
+  guided_cover_letter: "Performant Guided Cover Letter",
+  guided_react_cv: "Detailed Guided CV",
+  guided_react_cover_letter: "Detailed Guided Cover Letter",
+  auto_cv: "Performant Autonomous CV",
+  auto_cover_letter: "Performant Autonomous Cover Letter",
+  auto_react_cv: "Detailed Autonomous CV",
+  auto_react_cover_letter: "Detailed Autonomous Cover Letter",
 };
 
-const FileUpload = ({ setLlmResponse, setShowSpinner }) => {
+const FileUpload = ({ setLlmResponse, setShowSpinner, setErrorMsg }) => {
   const [jobDesc, setJobDesc] = useState("");
   const [taskType, setTaskType] = useState("");
   const [file, setFile] = useState(null);
@@ -65,12 +69,8 @@ const FileUpload = ({ setLlmResponse, setShowSpinner }) => {
       setShowSpinner(false);
       setLlmResponse(res.data);
     } catch (err) {
-      if (err.response.status === 500) {
-        setMessage("There was a problem with he server");
-      } else {
-        console.log(err);
-        setMessage("Error uploading file");
-      }
+      console.log(err.response);
+      setErrorMsg(`LLM error. ${err?.response?.data ?? ""}`);
     }
   };
 
@@ -114,16 +114,30 @@ const FileUpload = ({ setLlmResponse, setShowSpinner }) => {
           </select>
         </div>
         <div>
-          <p>
-            Guided means there are lower level step by step instructions
-            provided by a human, for example 'what are the hard skills required
-            by the job?', 'where does the user demonstrate experience with these
-            hard skills?'. This method might be more reliable but slower.
-          </p>
-          <p>
-            Autonomous means that the AI handles data fetching and synthesis
-            independently after being given a single prompt.
-          </p>
+          <p>Guided vs Autonomous</p>
+          <ul>
+            <li>
+              Guided means there are lower level step by step instructions
+              provided by a human, for example 'what are the hard skills
+              required by the job?', 'where does the user demonstrate experience
+              with these hard skills?'. This method might be more reliable but
+              slower than autonomous.
+            </li>
+            <li>
+              Autonomous means that the AI handles data fetching and synthesis
+              independently after being given a single prompt.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p>Performant vs Detailed</p>
+          <ul>
+            <li>Performant means results will be fetched quicker.</li>
+            <li>
+              Detailed means result might take longer but is likely to be more
+              detailed.
+            </li>
+          </ul>
         </div>
         <Progress percentage={uploadPercentage} />
 
