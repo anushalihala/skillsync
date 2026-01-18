@@ -45,26 +45,22 @@ const FileUpload = ({ setLlmResponse, setShowSpinner, setErrorMsg }) => {
     formData.append("taskType", taskType);
 
     try {
-      const res = await axios.post(
-        "https://anushalihala.pythonanywhere.com/submit",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          onUploadProgress: (progressEvent) => {
-            const percent = parseInt(
-              Math.round((progressEvent.loaded * 100) / progressEvent.total)
-            );
-            if (percent == 100) {
-              setMessage("File uploaded");
-              setShowSpinner(true);
-            }
-            setUploadPercentage(percent);
-            setTimeout(() => setUploadPercentage(0), 10000);
-          },
-        }
-      );
+      const res = await axios.post("http://127.0.0.1:5000/submit", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: (progressEvent) => {
+          const percent = parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          );
+          if (percent == 100) {
+            setMessage("File uploaded");
+            setShowSpinner(true);
+          }
+          setUploadPercentage(percent);
+          setTimeout(() => setUploadPercentage(0), 10000);
+        },
+      });
 
       setShowSpinner(false);
       setLlmResponse(res.data);
